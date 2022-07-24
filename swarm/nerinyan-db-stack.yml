@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  nerinyan-db:
+    image: mariadb:10.8.2
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - /volume1/SHR/server/database/mariadb:/var/lib/mysql
+      - /volume1/SHR/server/database/DB_CONF/mariadb/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - db-private
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+        - node.labels.name == ds920plus
+networks:
+  db-private:
